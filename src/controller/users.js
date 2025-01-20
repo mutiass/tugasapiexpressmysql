@@ -19,9 +19,16 @@ const getAllUsers = async (req, res) => {
 const createNewUser = async (req, res) => {
     const {body} = req;
 
+    if(!body.email || !body.name || !body.address) {
+        return res.status(400).json({
+            message: 'Anda mengirimkan data yang salah',
+            data: null,
+        })
+    }
+
     try {
         await UsersModel.createNewUser(body);
-        res.json({
+        res.status(201).json({
             messsage: 'CREATE new user success',
             data: body
         })
