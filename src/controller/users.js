@@ -50,21 +50,23 @@ const updateUser = async (req, res) => {
             message: 'Server Error',
             serverMessage: error,
     })
-}
-    console.log('idUser: ', idUser);
+  }
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
     const {idUser} = req.params;
-    res.json({
-        message: "DELETE user success",
-        data: {
-            id: idUser,
-            name: "Mutia",
-            email: "mutia@gmail.com",
-            address: "Bente"
-        }
-    })
+    try {
+        await UsersModel.deleteUser(idUser);
+        res.json({
+                message: "DELETE user success",
+                data:  null
+            })
+    } catch (error) {
+        res.status(500).json({
+            message: 'Server Error',
+            serverMessage: error,
+        })
+    }
 }
 
 module.exports = {
